@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: demo-filebrowser
-        image: hacdias/filebrowser
+        image: filebrowser/filebrowser
         args: ["--port", "80", "--database", "/database.db", "--scope", "/srv", "--no-auth"]
         ports:
           - containerPort: 80

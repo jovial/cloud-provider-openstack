@@ -30,7 +30,7 @@ spec:
       containers:
       - name: demo-filebrowser
         image: hacdias/filebrowser
-        args: ["--port", "80", "--database", "/database.db", "--scope", "/srv", "--no-auth"]
+        args: ["--port", "80", "--database", "/database.db", "--scope", "/srv", "--no-auth", "--v", "5"]
         ports:
           - containerPort: 80
         volumeMounts:

@@ -6,8 +6,9 @@ provisioner: manila-provisioner
 parameters:
   type: default
   zones: nova
-  osSecretName: YOUR-SECRET-NAME
+  osSecretName: manila-secrets
   osSecretNamespace: default
-
+  osShareName: HomeDirs
+  osShareAccessID: 8481096e-36d3-422b-aeb3-d6070d96bbe1
   protocol: CEPHFS
   backend: cephfs
