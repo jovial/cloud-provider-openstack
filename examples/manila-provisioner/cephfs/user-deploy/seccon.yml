@@ -5,6 +5,7 @@ metadata:
 spec:
   securityContext:
     runAsUser: 2024
+    runAsGroup: 2024
     fsGroup: 2024
   volumes:
   - name: sec-ctx-vol
@@ -15,6 +16,10 @@ spec:
       readOnly: false
   containers:
   - name: sec-ctx-demo
+    # command:
+    # - "/bin/bash"
+    # - "-c"
+    # - "useradd -u 2024 bharat"
     image: gcr.io/google-samples/node-hello:1.0
     volumeMounts:
     - name: sec-ctx-vol
@@ -22,5 +27,3 @@ spec:
     - name: cephfs-mount
       mountPath: /srv/bharat
       subPath: bharat
-    securityContext:
-      allowPrivilegeEscalation: false
