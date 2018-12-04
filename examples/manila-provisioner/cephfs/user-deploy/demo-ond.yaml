@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-svc
+  labels:
+    app: demo
+spec:
+  ports:
+    - name: filemanager
+      port: 80
+      nodePort: 30000
+  selector:
+    app: demo
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-depl
+  labels:
+    app: demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo-filebrowser
+        image: filebrowser/filebrowser
+        args: ["--port", "80", "--database", "/database.db", "--scope", "/srv", "--no-auth"]
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: cephfs-mount
+            mountPath: /srv
+            subPath: bharat
+      #securityContext:
+      #  supplementalGroups: 2024
+      volumes:
+        - name: cephfs-mount
+          persistentVolumeClaim:
+            claimName: manila-cephfs-pvc-ond
+            readOnly: false
