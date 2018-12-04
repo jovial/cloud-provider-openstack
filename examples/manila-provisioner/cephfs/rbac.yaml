@@ -35,7 +35,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: manila-provisioner
-    namespace: default
+    namespace: jhub
 roleRef:
   kind: ClusterRole
   name: manila-provisioner-runner
