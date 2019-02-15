@@ -1,15 +1,55 @@
+# How to mount Ceph Manila Share using OpenStack credentials
+
 ## Preconditions
 
-Generate Secrets manifest:
+- A working Kubernetes cluster
+- Manila share with a Ceph backend
+
+First of all, generate `secrets.yml` manifest containing your OpenStack
+credentials. Ensure that your OpenStack environment variables are sourced and
+that you can interact with OpenStack API normally. Ignore the warning about
+`OS_USER_ID` not being set.
+
 ```bash
-$ ./generate-secrets.sh -n my-manila-secrets | ./filter-secrets.sh > secrets.yaml
-$ kubectl create -f secrets.yaml
+$ source ~/p3-openrc.sh
+$ ./generate-secrets.sh -n manila-secrets | ./filter-secrets.sh > secrets.yaml
+
+Your `secrets.yml` should looks something like this. It is base64 encoded hence
+the characters look jumbled up.
+
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: manila-secrets
+      namespace: default
+    data:
+      os-authURL: "aHR0cDovLzEwLjYwLjI1My4xOjUwMDAvdjM="
+      os-userName: "YmhhcmF0"
+      os-password: "YWFuZ2asdDsFtasSSDsdsA4Eh"
+      os-projectID: "NTYzOGU4NTc3YmM4NDM3OWJhYmE0YmZiNjYxNzcwODY="
+      os-domainName: "RGVmYXVsdA=="
+      os-region: "UmVnaW9uT25l"
+
+
+To add this as a secret to Kubernetes called `manila-secrets`, run this:
+
+```bash
+$ kubectl create -f secrets.yml
 ```
 
-You can run `$ ./generate-secrets.sh -h` for further details.
+Now run `base-deploy.sh` to create necessary serviceaccounts with rbac and
+underlying `manila-provisioner` deployment:
 
-Set the Secret name in Storage Class manifest in `{demo}/user-deploy/sc.yaml`
+```bash
+cd cephfs
+./base-deploy.sh
+```
 
-## Running the demos
-Run `{demo}/base-deploy.sh` and `{demo}/user-deploy/demo-deploy.sh`
-For tearing down demos, run `{demo}/user-deploy/demo-teardown.sh` and `{demo}/base-teardown.sh`
+Finally, run `demo-deploy.sh` OR `demo-deploy-ond.sh` to mount an existing share, e.g. `HomeDirs` or create one on-demand.
+
+```bash
+cd user-deploy
+./demo-deploy.sh
+```
+
+For tearing down demos, run `demo-teardown.sh` followed by `base-teardown.sh`
