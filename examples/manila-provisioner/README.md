@@ -13,6 +13,7 @@ that you can interact with OpenStack API normally. Ignore the warning about
 ```bash
 $ source ~/p3-openrc.sh
 $ ./generate-secrets.sh -n manila-secrets | ./filter-secrets.sh > secrets.yaml
+```
 
 Your `secrets.yml` should looks something like this. It is base64 encoded hence
 the characters look jumbled up.
@@ -29,7 +30,6 @@ the characters look jumbled up.
       os-projectID: "NTYzOGU4NTc3YmM4NDM3OWJhYmE0YmZiNjYxNzcwODY="
       os-domainName: "RGVmYXVsdA=="
       os-region: "UmVnaW9uT25l"
-
 
 To add this as a secret to Kubernetes called `manila-secrets`, run this:
 
@@ -52,4 +52,4 @@ cd user-deploy
 ./demo-deploy.sh
 ```
 
-For tearing down demos, run `demo-teardown.sh` followed by `base-teardown.sh`
+For tearing down demos, run `demo-teardown.sh` followed by `base-teardown.sh`.
