@@ -4,7 +4,7 @@ metadata:
   name: manila-cephfs-share
 provisioner: manila-provisioner
 parameters:
-  type: default_share_type
+  type: cephfsnativetype
   zones: nova
   osSecretName: manila-secrets
   osSecretNamespace: default

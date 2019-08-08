@@ -32,13 +32,12 @@ spec:
       containers:
       - name: demo-filebrowser
         image: filebrowser/filebrowser
-        args: ["--port", "80", "--database", "/database.db", "--scope", "/srv", "--no-auth"]
+        args: ["--port", "80", "--database", "/database.db", "--root", "/srv", "--noauth"]
         ports:
           - containerPort: 80
         volumeMounts:
           - name: cephfs-mount
             mountPath: /srv
-            subPath: bharat
       #securityContext:
       #  supplementalGroups: 2024
       volumes:
